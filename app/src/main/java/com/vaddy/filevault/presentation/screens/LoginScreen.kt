@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,55 +25,96 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.vaddy.filevault.utils.viewmodelfactory.AdminViewModelFactory
 import com.vaddy.filevault.viewmodel.UserViewModel
-import com.vaddy.filevault.viewmodel.factory.UserViewModelFactory
+import com.vaddy.filevault.utils.viewmodelfactory.UserViewModelFactory
+import com.vaddy.filevault.viewmodel.AdminViewModel
 
 @Composable
-fun LoginScreen(navController: NavController) {
+fun LoginScreen(navController: NavController, isAdmin: Boolean) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(context.applicationContext as Application))
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        OutlinedTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
-        )
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = {
-            userViewModel.authenticateUser(email, password).observe(context as LifecycleOwner) { user ->
-                if (user != null) {
-                    if (user.role == "admin") {
+    if (isAdmin) {
+        val adminViewModel: AdminViewModel = viewModel(factory = AdminViewModelFactory(context.applicationContext as Application))
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                adminViewModel.authenticateAdmin(email, password).observe(context as LifecycleOwner) { admin ->
+                    if (admin != null) {
                         navController.navigate("admin")
                     } else {
-                        navController.navigate("user")
+                        Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
                 }
+            }) {
+                Text("Login")
             }
-        }) {
-            Text("Login")
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { navController.navigate("signupAdmin") }) {
+                Text("Sign Up")
+            }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.navigate("signup") }) {
-            Text("Sign Up")
+    } else {
+        val userViewModel: UserViewModel = viewModel(factory = UserViewModelFactory(context.applicationContext as Application))
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            OutlinedTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = { Text("Email") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                userViewModel.authenticateUser(email, password).observe(context as LifecycleOwner) { user ->
+                    if (user != null) {
+                        navController.navigate("user/${user.userId}")
+                    } else {
+                        Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }) {
+                Text("Login")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { navController.navigate("signupUser") }) {
+                Text("Sign Up")
+            }
         }
     }
 }

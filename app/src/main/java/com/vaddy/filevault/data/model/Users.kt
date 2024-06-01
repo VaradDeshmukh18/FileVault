@@ -1,4 +1,4 @@
-package com.vaddy.filevault.model
+package com.vaddy.filevault.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class User(
     @PrimaryKey(autoGenerate = true) val userId: Int = 0,
     @ColumnInfo(name = "email") val email: String,
-    @ColumnInfo(name = "password") val password: String,
-    @ColumnInfo(name = "role") val role: String // "admin" or "user"
+    @ColumnInfo(name = "password") val password: String
 )
+
 

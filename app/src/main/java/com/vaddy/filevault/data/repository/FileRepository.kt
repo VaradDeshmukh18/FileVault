@@ -1,7 +1,7 @@
-package com.vaddy.filevault.repository
+package com.vaddy.filevault.data.repository
 
-import com.vaddy.filevault.database.dao.FileDao
-import com.vaddy.filevault.model.File
+import com.vaddy.filevault.data.database.dao.FileDao
+import com.vaddy.filevault.data.model.File
 
 class FileRepository(private val fileDao: FileDao) {
     suspend fun insertFile(file: File) = fileDao.insertFile(file)

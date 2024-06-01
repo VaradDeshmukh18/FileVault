@@ -1,11 +1,11 @@
-package com.vaddy.filevault.database.dao
+package com.vaddy.filevault.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.vaddy.filevault.model.AccessLog
-import com.vaddy.filevault.model.File
+import com.vaddy.filevault.data.model.AccessLog
+import com.vaddy.filevault.data.model.File
 
 @Dao
 interface FileDao {
@@ -21,3 +21,4 @@ interface FileDao {
     @Query("DELETE FROM files WHERE fileId = :fileId")
     suspend fun deleteFile(fileId: Int)
 }
+

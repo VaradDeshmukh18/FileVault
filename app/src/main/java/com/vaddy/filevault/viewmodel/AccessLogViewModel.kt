@@ -5,11 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.vaddy.filevault.database.AppDatabase
-import com.vaddy.filevault.model.AccessLog
-import com.vaddy.filevault.model.User
-import com.vaddy.filevault.repository.AccessLogRepository
-import com.vaddy.filevault.repository.UserRepository
+import com.vaddy.filevault.data.database.AppDatabase
+import com.vaddy.filevault.data.model.AccessLog
+import com.vaddy.filevault.data.model.User
+import com.vaddy.filevault.data.repository.AccessLogRepository
+import com.vaddy.filevault.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class AccessLogViewModel(application: Application) : AndroidViewModel(application) {
@@ -30,5 +30,9 @@ class AccessLogViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun getLogsByFileId(fileId: Int): LiveData<List<AccessLog>> = liveData {
         emit(repository.getLogsByFileId(fileId))
+    }
+
+    fun getAllLogs(): LiveData<List<AccessLog>> = liveData {
+        emit(repository.getAllLogs())
     }
 }

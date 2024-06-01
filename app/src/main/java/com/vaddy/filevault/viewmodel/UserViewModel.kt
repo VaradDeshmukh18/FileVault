@@ -5,13 +5,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.vaddy.filevault.database.AppDatabase
-import com.vaddy.filevault.model.User
-import com.vaddy.filevault.repository.UserRepository
+import com.vaddy.filevault.data.database.AppDatabase
+import com.vaddy.filevault.data.model.User
+import com.vaddy.filevault.data.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
-
     private val repository: UserRepository
 
     init {
@@ -32,10 +31,11 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun updateUser(userId: Int, email: String, password: String) = viewModelScope.launch {
-        repository.updateUser(userId, email, password)
+        val user = User(userId = userId, email = email, password = password)
+        repository.updateUser(user)
     }
 
-    fun getUsersByRole(role: String): LiveData<List<User>> = liveData {
-        emit(repository.getUsersByRole(role))
+    fun getUserById(userId: Int): LiveData<User?> = liveData {
+        emit(repository.getUserById(userId))
     }
 }

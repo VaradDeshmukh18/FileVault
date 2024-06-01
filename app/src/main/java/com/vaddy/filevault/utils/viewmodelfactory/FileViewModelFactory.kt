@@ -1,13 +1,11 @@
-package com.vaddy.filevault.viewmodel.factory
+package com.vaddy.filevault.utils.viewmodelfactory
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.vaddy.filevault.viewmodel.FileViewModel
 
-class FileViewModelFactory(
-    private val application: Application
-) : ViewModelProvider.Factory {
+class FileViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(FileViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")

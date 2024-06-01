@@ -1,4 +1,4 @@
-package com.vaddy.filevault.model
+package com.vaddy.filevault.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

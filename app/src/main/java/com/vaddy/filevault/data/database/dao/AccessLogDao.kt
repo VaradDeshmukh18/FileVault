@@ -1,11 +1,11 @@
-package com.vaddy.filevault.database.dao
+package com.vaddy.filevault.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.vaddy.filevault.model.AccessLog
-import com.vaddy.filevault.model.User
+import com.vaddy.filevault.data.model.AccessLog
+import com.vaddy.filevault.data.model.User
 
 @Dao
 interface AccessLogDao {
@@ -17,4 +17,7 @@ interface AccessLogDao {
 
     @Query("SELECT * FROM access_logs WHERE fileId = :fileId")
     suspend fun getLogsByFileId(fileId: Int): List<AccessLog>
+
+    @Query("SELECT * FROM access_logs")
+    suspend fun getAllLogs(): List<AccessLog>
 }

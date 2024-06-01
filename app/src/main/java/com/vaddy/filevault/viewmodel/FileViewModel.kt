@@ -5,11 +5,11 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.vaddy.filevault.database.AppDatabase
-import com.vaddy.filevault.model.File
-import com.vaddy.filevault.model.User
-import com.vaddy.filevault.repository.FileRepository
-import com.vaddy.filevault.repository.UserRepository
+import com.vaddy.filevault.data.database.AppDatabase
+import com.vaddy.filevault.data.model.File
+import com.vaddy.filevault.data.model.User
+import com.vaddy.filevault.data.repository.FileRepository
+import com.vaddy.filevault.data.repository.UserRepository
 import com.vaddy.filevault.utils.AESUtil
 import kotlinx.coroutines.launch
 import javax.crypto.SecretKey
@@ -46,3 +46,4 @@ class FileViewModel(application: Application) : AndroidViewModel(application) {
         repository.deleteFile(fileId)
     }
 }
+
