@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">FileVault</string>
+    <string name="Admin">Admin</string>
+    <string name="User">User</string>
+</resources>
